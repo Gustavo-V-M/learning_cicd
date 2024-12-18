@@ -1,0 +1,6 @@
+---
+- name: Install jenkins on docker
+  hosts: jenkins
+  remote_user: root
+  roles:
+    - jenkins

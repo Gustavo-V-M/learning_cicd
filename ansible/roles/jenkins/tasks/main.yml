@@ -1,0 +1,61 @@
+- name: Install config-manager to add docker repo
+  ansible.builtin.dnf:
+    pkg:
+      - dnf-plugins-core
+    state: present
+
+- name: Add docker repo to dnf
+  ansible.builtin.command:
+    argv:
+      - dnf
+      - config-manager
+      - --add-repo
+      - https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Install docker packages
+  ansible.builtin.dnf:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+
+- name: Enable docker engine
+  ansible.builtin.systemd_service:
+    name: docker.service
+    enabled: true
+    state: started
+
+- name: Add local Dockerfile and compose.yml to host
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /home/
+    owner: root
+  loop:
+    - files/compose.yaml
+    - files/Dockerfile
+
+- name: Build localjenkins image
+  ansible.builtin.docker_image:
+    name: localjenkins
+    state: present
+    source: build
+    build:
+      path: /home/
+
+- name: Start docker compose
+  community.docker.docker_compose_v2:
+    project_src: /home/
+
+- name: Get jenkins initial password
+  community.docker.docker_container_exec:
+    container: local-jenkins
+    argv:
+      - cat
+      - /var/jenkins_home/secrets/initialAdminPassword
+  register: initial_pass
+
+- name: Show initial password
+  ansible.builtin.debug:
+    msg: "{{ initial_pass.stdout }}"
