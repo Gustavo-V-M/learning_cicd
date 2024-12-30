@@ -1,21 +1,21 @@
+// Declarative //
 pipeline {
-        agent any
-        stages {
-            stage('Build') {
-                steps {
-                    go build
-                    archiveArtifacts artifacts: 'http_example', fingerprint: true
-                }
-            }
-            stage('Test') {
-                steps {
-                    go test
-                }
-            }
-            stage('Deploy') {
-                steps {
-                    echo 'TODO: implement deploy with ansible'
-                }
+    agent any
+
+    tools {
+        go 'mygo'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'go build'
             }
         }
+        stage('Test') {
+            steps {
+                sh 'go test -v'
+            }
+        }
+    }
 }
