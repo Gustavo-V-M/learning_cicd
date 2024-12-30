@@ -4,6 +4,16 @@
       - dnf-plugins-core
     state: present
 
+- name: Install pipx
+  ansible.builtin.pip:
+    name: pipx
+
+- name: Install ansible
+  community.general.pipx:
+    name: ansible
+    state: present
+    install_deps: true
+
 - name: Add docker repo to dnf
   ansible.builtin.command:
     argv:

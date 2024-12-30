@@ -26,6 +26,7 @@ pipeline {
             post {
                 success {
                     archiveArtifacts artifacts: 'http_example', fingerprint: true
+                    sh '/root/.local/share/pipx/venvs/ansible/bin/ansible --version'
                 }
             }
         }
