@@ -18,7 +18,7 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts artifact: 'http_example', fingerprint: true
+                    archiveArtifacts artifacts: 'http_example', fingerprint: true
                 }
             }
         }
