@@ -26,7 +26,6 @@ pipeline {
             post {
                 success {
                     archiveArtifacts artifacts: 'http_example', fingerprint: true
-                    ansiblePlaybook(playbook: 'no_exist')
                 }
             }
         }
