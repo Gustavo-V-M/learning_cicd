@@ -1,13 +1,9 @@
-node {
-    checkout scm
-}
 pipeline {
         agent any
-
         stages {
             stage('Build') {
                 steps {
-                    go build 
+                    go build
                     archiveArtifacts artifacts: 'http_example', fingerprint: true
                 }
             }
@@ -18,9 +14,8 @@ pipeline {
             }
             stage('Deploy') {
                 steps {
-                    echo "TODO: implement deploy with ansible"
+                    echo 'TODO: implement deploy with ansible'
                 }
             }
         }
-    }
 }
