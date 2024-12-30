@@ -17,5 +17,10 @@ pipeline {
                 sh 'go test -v'
             }
         }
+        post {
+            success {
+                archiveArtifacts artifact: 'http_example', fingerprint: true
+            }
+        }
     }
 }
