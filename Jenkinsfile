@@ -4,9 +4,16 @@ pipeline {
 
     tools {
         go 'mygo'
+        terraform 'myterraform'
+        ansible 'myansible'
     }
 
     stages {
+        stage ('Checkout ') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 sh 'go build'
