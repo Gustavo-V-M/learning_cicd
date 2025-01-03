@@ -1,4 +1,4 @@
-package main
+package page
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ func TestViewHandler(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/view/test_page", nil)
 
 	rec := httptest.NewRecorder()
-	viewHandler(rec, req)
+	ViewHandler(rec, req)
 
 	if rec.Code != http.StatusOK {
 		t.Errorf("Expected status code 200, got %d", rec.Code)
